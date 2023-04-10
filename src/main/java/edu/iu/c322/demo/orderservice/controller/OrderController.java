@@ -1,9 +1,12 @@
 package edu.iu.c322.demo.orderservice.controller;
 
 import edu.iu.c322.demo.orderservice.model.Order;
+import edu.iu.c322.demo.orderservice.model.OrderItem;
 import edu.iu.c322.demo.orderservice.repository.OrderRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -18,8 +21,18 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public int create(@RequestBody Order order){
+
+        for(int i = 0; i < order.getItems().size(); i++){
+            OrderItem item = order.getItems().get(i);
+            item.setOrder(order);
+        }
         Order addedOrder = repository.save(order);
         return addedOrder.getId();
+    }
+
+    @GetMapping("/{customerId}")
+    public List<Order> findByCustomer(@PathVariable int customerId){
+        return repository.findByCustomerId(customerId);
     }
 
 }

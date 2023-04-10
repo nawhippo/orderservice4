@@ -12,7 +12,8 @@ public class OrderItem {
     private int quantity;
     private float price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     public int getId() {
