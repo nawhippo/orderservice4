@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -33,6 +34,11 @@ public class OrderController {
     @GetMapping("/{customerId}")
     public List<Order> findByCustomer(@PathVariable int customerId){
         return repository.findByCustomerId(customerId);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public Optional<Order> findByOrderId(@PathVariable int orderId){
+        return repository.findById(orderId);
     }
 
 }
